@@ -35,6 +35,7 @@ if($num>0){
         $people_obj=array(
             "id" => $id,
             "nom" => $nom,
+            'prenom' => $prenom,
             'famille' => $famille
         );
 

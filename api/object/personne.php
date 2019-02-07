@@ -19,7 +19,7 @@ class Personne{
     function read(){
 
         // select all query
-        $query = "SELECT p.id, p.nom , famille.nom as famille FROM personne p left join famille on p.famille = famille.id ";
+        $query = "SELECT p.id, p.nom , p.prenom, famille.nom as famille FROM personne p left join famille on p.famille = famille.id ";
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);
