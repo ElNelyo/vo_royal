@@ -32,7 +32,7 @@
             }
         },
         mounted() {
-            axios.get("http://127.0.0.1/CESI/vo_royal/api/personne/read.php").then(response => {
+            axios.get("http://127.0.0.1/vo_royal/api/personne/read.php").then(response => {
                 this.results = response.data.records
             })
 
