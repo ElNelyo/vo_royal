@@ -5,17 +5,17 @@ header("Content-Type: application/json; charset=UTF-8");
 
 // include database and object files
 include_once '../config/database.php';
-include_once '../object/famille.php';
+include_once '../object/intervention.php';
 
 // instantiate database and famille object
 $database = new Database();
 $db = $database->getConnection();
 
 // initialize object
-$famille = new Famille($db);
+$intervention = new Intervention ($db);
 
 // query familles
-$stmt = $famille->read();
+$stmt = $intervention->read();
 $num = $stmt->rowCount();
 
 
@@ -23,8 +23,8 @@ $num = $stmt->rowCount();
 if($num>0){
 
     // familles array
-    $famille_arr=array();
-    $famille_arr["records"]=array();
+    $intervention_arr=array();
+    $intervention_arr["records"]=array();
 
     // retrieve our table contents
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -32,19 +32,22 @@ if($num>0){
         // this will make $row['name'] to
         // just $name only
         extract($row);
-        $famille_obj=array(
+        $intervention_obj=array(
             "id" => $id,
-            "nom" => $nom
+            "titre" => $titre,
+            "detail" => $detail,
+            "priorite" => $priorite,
+            "personne" => $personne
         );
 
-        array_push($famille_arr["records"], $famille_obj);
+        array_push($intervention_arr["records"], $intervention_obj);
     }
 
     // set response code - 200 OK
     http_response_code(200);
 
     // show familles data in json format
-    echo json_encode($famille_arr);
+    echo json_encode($intervention_arr);
 }
 
 else{
@@ -54,6 +57,6 @@ else{
 
     // tell the user no familles found
     echo json_encode(
-        array("message" => "No famille found.")
+        array("message" => "No personne found.")
     );
 }

@@ -1,13 +1,16 @@
 <?php
-class Famille{
+class Intervention{
 
     // database connection and table name
     private $conn;
-    private $table_name = "famille";
+    private $table_name = "intervention";
 
     // object properties
     public $id;
-    public $nom;
+    public $titre;
+    public $detail;
+    public $priorite;
+    public $personne;
 
     // constructor with $db as database connection
     public function __construct($db){
@@ -18,7 +21,7 @@ class Famille{
     function read(){
 
         // select all query
-        $query = "SELECT id, nom FROM famille ";
+        $query = "SELECT i.id, i.titre, i.detail, i.priorite, personne.nom as personne FROM intervention i left join personne on i.personne= personne.id ";
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);
