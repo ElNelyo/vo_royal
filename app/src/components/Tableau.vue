@@ -1,6 +1,6 @@
 <template>
-    <div id="app">
-
+    <div id="table">
+        <h1>Tableau</h1>
         <table>
             <thead>
             <tr>
@@ -20,3 +20,15 @@
 
     </div>
 </template>
+
+    <script>
+        export default {
+        name: 'table',
+        props: {
+            msg: String
+
+        },
+
+    }
+</script>
+
