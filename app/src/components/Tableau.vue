@@ -9,7 +9,7 @@
                 <th>Famille</th>
             </tr>
             </thead>
-            <tbody v-model="results">
+            <tbody >
             <tr v-for="result in results">
                 <td>{{result.nom}}</td>
                 <td>{{result.prenom}}</td>
