@@ -1,5 +1,5 @@
 <template>
-    <div id="table">
+    <div id="tableau">
         <h1>Tableau</h1>
         <table>
             <thead>
@@ -9,7 +9,7 @@
                 <th>Famille</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody v-model="results">
             <tr v-for="result in results">
                 <td>{{result.nom}}</td>
                 <td>{{result.prenom}}</td>
@@ -21,14 +21,22 @@
     </div>
 </template>
 
-    <script>
-        export default {
-        name: 'table',
-        props: {
-            msg: String
+<script>
+    import axios from 'axios'
 
+    export default {
+        name: 'tableau',
+        data() {
+            return {
+                results: []
+            }
         },
+        mounted() {
+            axios.get("http://127.0.0.1/CESI/vo_royal/api/personne/read.php").then(response => {
+                this.results = response.data.records
+            })
 
+        }
     }
 </script>
 
