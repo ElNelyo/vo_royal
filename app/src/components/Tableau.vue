@@ -1,6 +1,7 @@
 <template>
     <div id="tableau">
         <h1>Tableau</h1>
+        <input type="text" placeholder="Rechercher..." v-model="recherche"/>
         <table>
             <thead>
             <tr>
@@ -10,8 +11,11 @@
             </tr>
             </thead>
             <tbody >
-            <tr v-for="row in rows">
-                <td v-for="col in columns">{{row[col]}}</td>
+            <tr v-for="row in filtrage">
+                <td>{{row["id"]}}</td>
+                <td>{{row["titre"]}}</td>
+                <td>{{row["priorite"]}}</td>
+                <td>{{row["personne"]}}</td>
 
             </tr>
             </tbody>
@@ -31,7 +35,8 @@
                 elementsPerPage: 3,
                 alphabetique: false,
                 sortColumn: '',
-                rows: []
+                rows: [],
+                recherche: '',
             }
         },
         mounted() {
@@ -40,7 +45,7 @@
             })
 
         },
-        methods:{
+        methods: {
             "trieTableau": function sortTable(col) {
                 if (this.sortColumn === col) {
                     this.alphabetique = !this.alphabetique;
@@ -51,23 +56,23 @@
 
                 var alphabetique = this.alphabetique;
 
-                this.rows.sort(function(a, b) {
+                this.rows.sort(function (a, b) {
                     if (a[col] > b[col]) {
-                        if(alphabetique){
+                        if (alphabetique) {
                             return 1
-                        }else{
+                        } else {
                             return -1
                         }
                     } else if (a[col] < b[col]) {
-                        if(alphabetique){
+                        if (alphabetique) {
                             return -1
-                        }else{
+                        } else {
                             return 1
                         }
                     }
                     return 0;
                 })
-            },
+            }
         },
         computed: {
             "columns": function columns() {
@@ -75,8 +80,19 @@
                     return [];
                 }
                 var colonnes = Object.keys(this.rows[0]);
-                delete colonnes[2];
+                colonnes.splice(2, 1);
                 return colonnes;
+            },
+            'filtrage' : function (){
+                var self=this;
+                return this.rows.filter(function(row){
+                    return ((row.titre.toLowerCase().indexOf(self.recherche.toLowerCase())>=0) ||
+                            (row.personne.toLowerCase().indexOf(self.recherche.toLowerCase())>=0)||
+                            (row.priorite.toLowerCase().indexOf(self.recherche.toLowerCase())>=0)||
+                            (row.id.toLowerCase().indexOf(self.recherche.toLowerCase())>=0)
+
+                    );
+                });
             }
         }
     }
