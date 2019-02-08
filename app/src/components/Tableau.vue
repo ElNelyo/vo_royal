@@ -20,6 +20,12 @@
             </tr>
             </tbody>
         </table>
+        <div class="pagination">
+            <div class="number"
+                 v-for="i in num_pages()"
+                 v-bind:class="[i === currentPage ? 'active' : '']"
+                 v-on:click="change_page(i)">{{i}}</div>
+        </div>
 
     </div>
 </template>
@@ -32,7 +38,7 @@
         data() {
             return {
                 currentPage: 1,
-                elementsPerPage: 3,
+                elementsPerPage: 2,
                 alphabetique: false,
                 sortColumn: '',
                 rows: [],
@@ -46,6 +52,12 @@
 
         },
         methods: {
+            "change_page": function change_page(page) {
+                this.currentPage = page;
+            },
+            "num_pages": function num_pages() {
+                return Math.ceil(this.rows.length / this.elementsPerPage);
+            },
             "trieTableau": function sortTable(col) {
                 if (this.sortColumn === col) {
                     this.alphabetique = !this.alphabetique;
@@ -85,7 +97,7 @@
             },
             'filtrage' : function (){
                 var self=this;
-                return this.rows.filter(function(row){
+                var filtered = this.rows.filter(function(row){
                     return ((row.titre.toLowerCase().indexOf(self.recherche.toLowerCase())>=0) ||
                             (row.personne.toLowerCase().indexOf(self.recherche.toLowerCase())>=0)||
                             (row.priorite.toLowerCase().indexOf(self.recherche.toLowerCase())>=0)||
@@ -93,6 +105,10 @@
 
                     );
                 });
+                var start = (this.currentPage - 1) * this.elementsPerPage;
+                var end = start + this.elementsPerPage;
+                return filtered.slice(start, end);
+
             }
         }
     }
