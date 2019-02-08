@@ -5,6 +5,7 @@
             <thead>
             <tr>
                 <th v-for="col in columns" v-on:click="trieTableau(col)">{{col}}
+                    <div  v-if="col == sortColumn" v-bind:class="[alphabetique ? 'arrow asc' : 'arrow dsc']"></div>
                 </th>
             </tr>
             </thead>
@@ -52,9 +53,17 @@
 
                 this.rows.sort(function(a, b) {
                     if (a[col] > b[col]) {
-                        return alphabetique ? 1 : -1
+                        if(alphabetique){
+                            return 1
+                        }else{
+                            return -1
+                        }
                     } else if (a[col] < b[col]) {
-                        return alphabetique ? -1 : 1
+                        if(alphabetique){
+                            return -1
+                        }else{
+                            return 1
+                        }
                     }
                     return 0;
                 })
@@ -62,12 +71,11 @@
         },
         computed: {
             "columns": function columns() {
-                if (this.rows.length == 0) {
+                if (this.rows.length === 0) {
                     return [];
                 }
                 var colonnes = Object.keys(this.rows[0]);
                 delete colonnes[2];
-                console.log(colonnes);
                 return colonnes;
             }
         }
