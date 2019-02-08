@@ -4,16 +4,14 @@
         <table>
             <thead>
             <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Famille</th>
+                <th v-for="col in columns" v-on:click="trieTableau(col)">{{col}}
+                </th>
             </tr>
             </thead>
             <tbody >
-            <tr v-for="result in results">
-                <td>{{result.nom}}</td>
-                <td>{{result.prenom}}</td>
-                <td>{{result.famille}}</td>
+            <tr v-for="row in rows">
+                <td v-for="col in columns">{{row[col]}}</td>
+
             </tr>
             </tbody>
         </table>
@@ -28,14 +26,50 @@
         name: 'tableau',
         data() {
             return {
-                results: []
+                currentPage: 1,
+                elementsPerPage: 3,
+                alphabetique: false,
+                sortColumn: '',
+                rows: []
             }
         },
         mounted() {
-            axios.get("http://127.0.0.1/vo_royal/api/personne/read.php").then(response => {
-                this.results = response.data.records
+            axios.get("http://127.0.0.1/vo_royal/api/intervention/read.php").then(response => {
+                this.rows = response.data.records
             })
 
+        },
+        methods:{
+            "trieTableau": function sortTable(col) {
+                if (this.sortColumn === col) {
+                    this.alphabetique = !this.alphabetique;
+                } else {
+                    this.alphabetique = true;
+                    this.sortColumn = col;
+                }
+
+                var alphabetique = this.alphabetique;
+
+                this.rows.sort(function(a, b) {
+                    if (a[col] > b[col]) {
+                        return alphabetique ? 1 : -1
+                    } else if (a[col] < b[col]) {
+                        return alphabetique ? -1 : 1
+                    }
+                    return 0;
+                })
+            },
+        },
+        computed: {
+            "columns": function columns() {
+                if (this.rows.length == 0) {
+                    return [];
+                }
+                var colonnes = Object.keys(this.rows[0]);
+                delete colonnes[2];
+                console.log(colonnes);
+                return colonnes;
+            }
         }
     }
 </script>
