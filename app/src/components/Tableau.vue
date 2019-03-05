@@ -7,6 +7,15 @@
             <tr>
                 <th v-for="col in columns" v-on:click="trieTableau(col)">{{col}}
                     <div v-if="col == sortColumn" v-bind:class="[alphabetique ? 'arrow asc' : 'arrow dsc']"></div>
+                    <input v-if="col==`titre` " type="text" placeholder="Rechercher par titre..."
+                           v-model="recherche_titre"/>
+                    <input v-if="col==`personne` " type="text" placeholder="Rechercher par personne..."
+                           v-model="recherche_personne"/>
+                    <input v-if="col==`id` " type="text" placeholder="Rechercher par id..."
+                           v-model="recherche_id"/>
+                    <input v-if="col==`priorite` " type="text" placeholder="Rechercher par priorite..."
+                           v-model="recherche_priorite"/>
+
                 </th>
             </tr>
             </thead>
@@ -14,29 +23,28 @@
             <tr v-for="row in filtrage">
 
                 <td v-if="editmode && row_to_edit == row && value_to_edit== row[`id`] && column_to_edit==`id`">
-                    <input  type="text"  v-bind:value="row[`id`]">
+                    <input type="text" v-bind:value="row[`id`]">
                 </td>
-                <td v-else  v-on:click="edit(row,row[`id`],`id`)">
+                <td v-else v-on:click="edit(row,row[`id`],`id`)">
                     {{row["id"]}}
                 </td>
                 <td v-if="editmode && row_to_edit == row && value_to_edit== row[`titre`] && column_to_edit==`titre`">
-                    <input type="text" @change="update_titre(row[`id`], row)" v-bind:value="row[`titre`]" name="input_titre">
+                    <input type="text" @change="update_titre(row[`id`], row)" v-bind:value="row[`titre`]"
+                           name="input_titre">
                 </td>
-                <td v-else  v-on:click="edit(row,row[`titre`],`titre`)">
+                <td v-else v-on:click="edit(row,row[`titre`],`titre`)">
                     {{row["titre"]}}
                 </td>
                 <td v-if="editmode && row_to_edit == row && value_to_edit== row[`priorite`]&& column_to_edit==`priorite`">
                     <input type="text" :value="row[`priorite`]">
                 </td>
-                <td v-else  v-on:click="edit(row,row[`priorite`],`priorite`)">
+                <td v-else v-on:click="edit(row,row[`priorite`],`priorite`)">
                     {{row["priorite"]}}
                 </td>
 
-                <td >
+                <td>
                     {{row["personne"]}}
                 </td>
-
-
 
 
             </tr>
@@ -63,13 +71,17 @@
                 editmode: false,
                 row_to_edit: null,
                 value_to_edit: null,
-                column_to_edit : null,
+                column_to_edit: null,
                 currentPage: 1,
                 elementsPerPage: 2,
                 alphabetique: false,
                 sortColumn: '',
                 rows: [],
                 recherche: '',
+                recherche_titre: '',
+                recherche_id: '',
+                recherche_personne: '',
+                recherche_priorite: '',
             }
         },
         mounted() {
@@ -78,10 +90,10 @@
             })
 
         }, methods: {
-            "update_titre": function update_titre(id,row){
+            "update_titre": function update_titre(id, row) {
                 const field = document.querySelector("input[name=input_titre]").value;
-                axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id="+id+"&titre="+field ).then(response => {
-                        row["titre"] = field;
+                axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&titre=" + field).then(response => {
+                    row["titre"] = field;
                 })
             },
             "change_page": function change_page(page) {
@@ -90,10 +102,10 @@
             "num_pages": function num_pages() {
                 return Math.ceil(this.rows.length / this.elementsPerPage);
             },
-            "edit": function edit(row,value,col) {
+            "edit": function edit(row, value, col) {
 
                 this.row_to_edit = row;
-                this.value_to_edit= value;
+                this.value_to_edit = value;
                 this.column_to_edit = col;
 
                 if (this.editmode) {
@@ -142,7 +154,10 @@
             },
             'filtrage': function () {
                 var self = this;
-                var filtered = this.rows.filter(function (row) {
+                var filtered;
+
+                filtered = this.rows.filter(function (row) {
+
                     return ((row.titre.toLowerCase().indexOf(self.recherche.toLowerCase()) >= 0) ||
                         (row.personne.toLowerCase().indexOf(self.recherche.toLowerCase()) >= 0) ||
                         (row.priorite.toLowerCase().indexOf(self.recherche.toLowerCase()) >= 0) ||
@@ -150,6 +165,26 @@
 
                     );
                 });
+                if (this.recherche_id != "") {
+                    filtered = this.rows.filter(function (row) {
+                        return (row.id.toLowerCase().indexOf(self.recherche_id.toLowerCase()) >= 0)
+                    })
+                }
+                if (this.recherche_titre != "") {
+                    filtered = this.rows.filter(function (row) {
+                        return (row.titre.toLowerCase().indexOf(self.recherche_titre.toLowerCase()) >= 0)
+                    })
+                }
+                if (this.recherche_priorite != "") {
+                    filtered = this.rows.filter(function (row) {
+                        return (row.priorite.toLowerCase().indexOf(self.recherche_priorite.toLowerCase()) >= 0)
+                    })
+                }
+                if (this.recherche_personne != "") {
+                    filtered = this.rows.filter(function (row) {
+                        return (row.personne.toLowerCase().indexOf(self.recherche_personne.toLowerCase()) >= 0)
+                    })
+                }
                 var start = (this.currentPage - 1) * this.elementsPerPage;
                 var end = start + this.elementsPerPage;
                 return filtered.slice(start, end);
