@@ -14,13 +14,13 @@
             <tr v-for="row in filtrage">
 
                 <td v-if="editmode && row_to_edit == row && value_to_edit== row[`id`] && column_to_edit==`id`">
-                    <input type="text" v-bind:value="row[`id`]" >
+                    <input  type="text"  v-bind:value="row[`id`]">
                 </td>
                 <td v-else  v-on:click="edit(row,row[`id`],`id`)">
                     {{row["id"]}}
                 </td>
                 <td v-if="editmode && row_to_edit == row && value_to_edit== row[`titre`] && column_to_edit==`titre`">
-                    <input type="text" :value="row[`titre`]">
+                    <input type="text" @change="update_titre(row[`id`], row)" v-bind:value="row[`titre`]" name="input_titre">
                 </td>
                 <td v-else  v-on:click="edit(row,row[`titre`],`titre`)">
                     {{row["titre"]}}
@@ -77,14 +77,13 @@
                 this.rows = response.data.records
             })
 
-        },
-        watch: {
-            'mon_id': function(newVal, oldVal) {
-                console.log('value changed from ' + oldVal + ' to ' + newVal);
-            }
-        },
-
-        methods: {
+        }, methods: {
+            "update_titre": function update_titre(id,row){
+                const field = document.querySelector("input[name=input_titre]").value;
+                axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id="+id+"&titre="+field ).then(response => {
+                        row["titre"] = field;
+                })
+            },
             "change_page": function change_page(page) {
                 this.currentPage = page;
             },
@@ -92,9 +91,11 @@
                 return Math.ceil(this.rows.length / this.elementsPerPage);
             },
             "edit": function edit(row,value,col) {
+
                 this.row_to_edit = row;
                 this.value_to_edit= value;
                 this.column_to_edit = col;
+
                 if (this.editmode) {
                     this.editmode = false;
                 } else {
@@ -153,11 +154,6 @@
                 var end = start + this.elementsPerPage;
                 return filtered.slice(start, end);
 
-            }
-        },
-        'watch': {
-            'id': function(newVal, oldVal) {
-                console.log('value changed from ' + oldVal + ' to ' + newVal);
             }
         }
     }

@@ -19,34 +19,41 @@ $intervention = new Intervention($db);
 
 // get id of product to be edited
 $data = json_decode(file_get_contents("php://input"));
-
-// set ID property of product to be edited
-$intervention->id = $data->id;
-
+if (isset($_GET)) {
+    $intervention->id = $_GET['id'];
+    if (isset($_GET['titre'])) {
+        $intervention->titre = $_GET['titre'];
+    }
+    if (isset($_GET['priorite'])) {
+        $intervention->priorite = $_GET['priorite'];
+    }
+    if (isset($_GET['detail'])) {
+        $intervention->detail = $_GET['detail'];
+    }
+    if (isset($_GET['personne'])) {
+        $intervention->personne = $_GET['personne'];
+    }
 // set product property values
-$intervention->titre = $data->titre;
-$intervention->priorite = $data->priorite;
-$intervention->detail= $data->detail;
-$intervention->personne= $data->personne;
+
+}
+// set ID property of product to be edited
 
 
 // update the product
-if($intervention->update()){
+if ($intervention->update()) {
 
 // set response code - 200 ok
-http_response_code(200);
+    http_response_code(200);
 
 // tell the user
-echo json_encode(array("message" => "Intervention was updated."));
-}
-
-// if unable to update the product, tell the user
-else{
+    echo json_encode(array("message" => "Intervention was updated."));
+} // if unable to update the product, tell the user
+else {
 
 // set response code - 503 service unavailable
-http_response_code(503);
+    http_response_code(503);
 
 // tell the user
-echo json_encode(array("message" => "Unable to update intervention."));
+    echo json_encode(array("message" => "Unable to update intervention."));
 }
 ?>

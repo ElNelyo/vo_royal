@@ -5,4 +5,8 @@ npm install -g @vue/cli-service
 npm install -g @vue/cli-service-global
 npm install axios --save
 ```
-
+#Start
+```
+cd app
+npm start serve
+```
