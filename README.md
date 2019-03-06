@@ -11,7 +11,7 @@ cd app
 npm start serve
 ```
 # User stories
-**Story ID**|**User Story**|**Priority**|**Validation**
+**Story ID**|**User Story**|**Validation**|**Priority**
 :-----:|:-----:|:-----:|:-----:
 1|En tant qu'utilisateur je souhaite lister les interventions sous la forme d'un tableau|true|1
 2|En tant qu'utilisateur je souhaite pouvoir ajouter une intervention|false|1
