@@ -25,11 +25,12 @@
                 <!--On donne pas la possibilité de modifier un id-->
 
                 <!--<td v-if="editmode && row_to_edit == row && value_to_edit== row[`id`] && column_to_edit==`id`">-->
-                    <!--<input type="text" v-bind:value="row[`id`]">-->
+                <!--<input type="text" v-bind:value="row[`id`]">-->
                 <!--</td>-->
                 <!--<td v-else v-on:click="edit(row,row[`id`],`id`)">-->
-                    <!--{{row["id"]}}-->
+                <!--{{row["id"]}}-->
                 <!--</td>-->
+
                 <td>{{row["id"]}}</td>
 
                 <td v-if="editmode && row_to_edit == row && value_to_edit== row[`titre`] && column_to_edit==`titre`">
@@ -47,7 +48,17 @@
                     {{row["priorite"]}}
                 </td>
 
-                <td>
+                <td v-if="editmode && row_to_edit == row && value_to_edit== row[`personne`]&& column_to_edit==`personne`">
+                    <select type="text" @change="update_personne(row[`id`], row)" v-bind:value="row[`personne`]"
+                            name="select_personne" id="select_personne">
+
+                        <option value="1">Lannister</option>
+                        <option value="2">Sansa</option>
+
+                    </select>
+
+                </td>
+                <td v-else v-on:click="edit(row,row[`personne`],`personne`)">
                     {{row["personne"]}}
                 </td>
 
@@ -105,6 +116,14 @@
                 const field = document.querySelector("input[name=input_priorite]").value;
                 axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&priorite=" + field).then(response => {
                     row["priorite"] = field;
+                })
+            },
+            "update_personne": function update_personne(id, row) {
+                const field = document.querySelector("select[name=select_personne]").value;
+                var e = document.getElementById("select_personne");
+                const field_display = e.options[e.selectedIndex].text;
+                axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&personne=" + field).then(response => {
+                    row["personne"] = field_display;
                 })
             },
             "change_page": function change_page(page) {
