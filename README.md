@@ -1,16 +1,16 @@
-#Dependencies
+# Dependencies
 ```
 npm install -g @vue/cli
 npm install -g @vue/cli-service
 npm install -g @vue/cli-service-global
 npm install axios --save
 ```
-#Start
+# Start
 ```
 cd app
 npm start serve
 ```
-#User stories
+# User stories
 
     | StoryID | User  Story                                                                                                            | Priority | Validation         |
     |:-------:|:----------------------------------------------------------------------------------------------------------------------:|:--------:|:------------------:|
@@ -27,4 +27,4 @@ npm start serve
     |    11   | En tant que développeur je souhaite réaliser un powerpoint présentant le projet                                        | 1        |      refused       |
     |    12   | En tant que développeur je souhaite intégrer une feuille de style personnalisée                                        | 2        |      accepted      |
     |    13   | En tant que développeur je souhaite ordonnancer les résultats par colonne                                              | 2        |      accepted      |
-##16/24
+## 16/24
