@@ -122,6 +122,7 @@
                 const field = document.querySelector("select[name=select_personne]").value;
                 var e = document.getElementById("select_personne");
                 const field_display = e.options[e.selectedIndex].text;
+                
                 axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&personne=" + field).then(response => {
                     row["personne"] = field_display;
                 })
