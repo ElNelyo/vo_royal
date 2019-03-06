@@ -22,12 +22,16 @@
             <tbody>
             <tr v-for="row in filtrage">
 
-                <td v-if="editmode && row_to_edit == row && value_to_edit== row[`id`] && column_to_edit==`id`">
-                    <input type="text" v-bind:value="row[`id`]">
-                </td>
-                <td v-else v-on:click="edit(row,row[`id`],`id`)">
-                    {{row["id"]}}
-                </td>
+                <!--On donne pas la possibilité de modifier un id-->
+
+                <!--<td v-if="editmode && row_to_edit == row && value_to_edit== row[`id`] && column_to_edit==`id`">-->
+                    <!--<input type="text" v-bind:value="row[`id`]">-->
+                <!--</td>-->
+                <!--<td v-else v-on:click="edit(row,row[`id`],`id`)">-->
+                    <!--{{row["id"]}}-->
+                <!--</td>-->
+                <td>{{row["id"]}}</td>
+
                 <td v-if="editmode && row_to_edit == row && value_to_edit== row[`titre`] && column_to_edit==`titre`">
                     <input type="text" @change="update_titre(row[`id`], row)" v-bind:value="row[`titre`]"
                            name="input_titre">
@@ -36,7 +40,8 @@
                     {{row["titre"]}}
                 </td>
                 <td v-if="editmode && row_to_edit == row && value_to_edit== row[`priorite`]&& column_to_edit==`priorite`">
-                    <input type="text" :value="row[`priorite`]">
+                    <input type="text" @change="update_priorite(row[`id`], row)" v-bind:value="row[`priorite`]"
+                           name="input_priorite">
                 </td>
                 <td v-else v-on:click="edit(row,row[`priorite`],`priorite`)">
                     {{row["priorite"]}}
@@ -94,6 +99,12 @@
                 const field = document.querySelector("input[name=input_titre]").value;
                 axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&titre=" + field).then(response => {
                     row["titre"] = field;
+                })
+            },
+            "update_priorite": function update_titre(id, row) {
+                const field = document.querySelector("input[name=input_priorite]").value;
+                axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&priorite=" + field).then(response => {
+                    row["priorite"] = field;
                 })
             },
             "change_page": function change_page(page) {

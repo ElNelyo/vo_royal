@@ -15,23 +15,39 @@ $database = new Database();
 $db = $database->getConnection();
 
 // prepare product object
-$intervention = new Intervention($db);
+$interventionObject = new Intervention($db);
+$interventionObject= $interventionObject->get($_GET['id']);
+$new_Intervention = new Intervention($db);
+$intervention = $interventionObject->fetch(PDO::FETCH_ASSOC);
+$new_Intervention->id=$intervention["id"];
+$new_Intervention->titre=$intervention["titre"];
+$new_Intervention->priorite=$intervention["priorite"];
+$new_Intervention->detail=$intervention["detail"];
+$new_Intervention->personne=$intervention["personne"];
+
 
 // get id of product to be edited
 $data = json_decode(file_get_contents("php://input"));
 if (isset($_GET)) {
-    $intervention->id = $_GET['id'];
-    if (isset($_GET['titre'])) {
-        $intervention->titre = $_GET['titre'];
+    if ( (isset($_GET['titre']) && $_GET['titre'] != "" )) {
+        $new_Intervention->titre = $_GET['titre'];
     }
-    if (isset($_GET['priorite'])) {
-        $intervention->priorite = $_GET['priorite'];
+
+
+    if ( (isset($_GET['priorite']) && $_GET['priorite'] != "" )) {
+
+        $new_Intervention->priorite = $_GET['priorite'];
     }
-    if (isset($_GET['detail'])) {
-        $intervention->detail = $_GET['detail'];
+
+    if ( (isset($_GET['detail']) && $_GET['detail'] != "" )) {
+
+        $new_Intervention->detail = $_GET['detail'];
     }
-    if (isset($_GET['personne'])) {
-        $intervention->personne = $_GET['personne'];
+
+    if ( (isset($_GET['personne']) && $_GET['personne'] != "" )) {
+
+
+        $new_Intervention->personne = $_GET['personne'];
     }
 // set product property values
 
@@ -40,7 +56,7 @@ if (isset($_GET)) {
 
 
 // update the product
-if ($intervention->update()) {
+if ($new_Intervention->update()) {
 
 // set response code - 200 ok
     http_response_code(200);

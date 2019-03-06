@@ -13,10 +13,27 @@ class Intervention
     public $priorite;
     public $personne;
 
+
     // constructor with $db as database connection
     public function __construct($db)
     {
         $this->conn = $db;
+    }
+
+    function get($id)
+    {
+
+        // select all query
+        $query = "SELECT i.id, i.titre, i.detail, i.priorite, personne.id AS personne FROM intervention i LEFT JOIN personne ON i.personne= personne.id WHERE i.id=".$id." ORDER BY i.id ";
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // execute query
+        $stmt->execute();
+
+
+        return $stmt;
+
     }
 
     // read familles
@@ -31,6 +48,7 @@ class Intervention
 
         // execute query
         $stmt->execute();
+
 
 
         return $stmt;
