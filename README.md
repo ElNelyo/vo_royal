@@ -11,7 +11,7 @@ cd app
 npm start serve
 ```
 #User stories
-```
+
     | StoryID | User  Story                                                                                                            | Priority | Validation         |
     |:-------:|:----------------------------------------------------------------------------------------------------------------------:|:--------:|:------------------:|
     |    1    | En tant qu'utilisateur je souhaite lister les interventions sous la forme d'un tableau                                 | 1        |      accepted      |
@@ -27,5 +27,4 @@ npm start serve
     |    11   | En tant que développeur je souhaite réaliser un powerpoint présentant le projet                                        | 1        |      refused       |
     |    12   | En tant que développeur je souhaite intégrer une feuille de style personnalisée                                        | 2        |      accepted      |
     |    13   | En tant que développeur je souhaite ordonnancer les résultats par colonne                                              | 2        |      accepted      |
-   ```
 ##16/24
