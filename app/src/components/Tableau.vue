@@ -17,6 +17,7 @@
                            v-model="recherche_priorite"/>
 
                 </th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -62,6 +63,10 @@
                     {{row["personne"]}}
                 </td>
 
+                <td>
+                    <button @click="displayDetail(row[`detail`])">Voir detail</button>
+                    <button>Modifier</button>
+                </td>
 
             </tr>
             </tbody>
@@ -76,10 +81,11 @@
             </div>
         </div>
 
+        <div v-if="display_detail == true">
+            <p>{{detail}}</p>
+        </div>
 
-
-        <h1>TEST</h1>
-        <button @click="changeShow()" >Ajouter une intervention</button>
+        <button @click="changeShow()">Ajouter une intervention</button>
 
         <div v-if="show_add == true">
             <input type="text" placeholder="Titre de l'intervention" id="intervention_titre">
@@ -89,16 +95,11 @@
                 <option value="1">Lannister</option>
                 <option value="2">Sansa</option>
             </select>
-            <button @click="addIntervention()" >Valider</button>
+            <button @click="addIntervention()">Valider</button>
         </div>
 
 
     </div>
-
-
-
-
-
 
 
 </template>
@@ -110,6 +111,8 @@
         name: 'tableau',
         data() {
             return {
+                detail : '',
+                display_detail: false,
                 show_add: false,
                 editmode: false,
                 row_to_edit: null,
@@ -133,24 +136,36 @@
             })
 
         }, methods: {
-            "addIntervention" : function addIntervention () {
+            "displayDetail": function displayDetail($detail) {
+                if (this.display_detail == true) {
+                    this.detail = '';
+                    this.display_detail = false;
+                } else {
+                    this.detail = $detail;
+                    this.display_detail = true;
+                }
+                return null;
+
+            },
+
+            "addIntervention": function addIntervention() {
                 var titre = document.querySelector("input[id=intervention_titre]").value;
                 var priorite = document.querySelector("input[id=intervention_priorite]").value;
                 var detail = document.querySelector("textarea[id=intervention_detail]").value;
                 var personne = document.querySelector("select[id=intervention_personne]").value;
-                axios.get("http://127.0.0.1/vo_royal/api/intervention/add.php?titre=" + titre+"&priorite="+priorite+"&detail="+detail+"&personne="+personne).then(response => {
+                axios.get("http://127.0.0.1/vo_royal/api/intervention/add.php?titre=" + titre + "&priorite=" + priorite + "&detail=" + detail + "&personne=" + personne).then(response => {
                     axios.get("http://127.0.0.1/vo_royal/api/intervention/read.php").then(response_2 => {
                         this.rows = response_2.data.records
                     })
                     return response;
                 })
-              return null;
+                return null;
             },
             "changeShow": function changeShow() {
-                if(this.show_add == true){
-                    this.show_add= false;
-                }else{
-                    this.show_add= true;
+                if (this.show_add == true) {
+                    this.show_add = false;
+                } else {
+                    this.show_add = true;
                 }
                 return null;
             },
@@ -174,7 +189,7 @@
                 const field = document.querySelector("select[name=select_personne]").value;
                 var e = document.getElementById("select_personne");
                 const field_display = e.options[e.selectedIndex].text;
-                
+
                 axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&personne=" + field).then(response => {
                     row["personne"] = field_display;
                     return response;
