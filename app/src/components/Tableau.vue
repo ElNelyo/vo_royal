@@ -66,6 +66,8 @@
                 <td>
                     <button @click="displayDetail(row[`detail`])">Voir detail</button>
                     <button>Modifier</button>
+                    <button @click="deleteIntervention(row[`id`])" >Supprimer</button>
+
                 </td>
 
             </tr>
@@ -136,6 +138,15 @@
             })
 
         }, methods: {
+            "deleteIntervention" : function deleteIntervention($id) {
+                axios.get("http://127.0.0.1/vo_royal/api/intervention/delete.php?id=" + $id).then(response => {
+                    axios.get("http://127.0.0.1/vo_royal/api/intervention/read.php").then(response_2 => {
+                        this.rows = response_2.data.records
+                    })
+                    return response;
+                })
+                return null;
+            },
             "displayDetail": function displayDetail($detail) {
                 if (this.display_detail == true) {
                     this.detail = '';

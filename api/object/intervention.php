@@ -69,6 +69,21 @@ class Intervention
 
     }
 
+    function delete($id)
+    {
+        // select all query
+        $query = "delete FROM intervention WHERE id=" . $id;
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // execute query
+        $stmt->execute();
+
+
+        return $stmt;
+    }
+
 // update the product
     function update()
     {
