@@ -5,7 +5,7 @@
         <table>
             <thead>
             <tr>
-                <th v-for="col in columns" v-on:click="trieTableau(col)">{{col}}
+                <th v-for="col in columns" v-on:click="trieTableau(col)" :key="col">{{col}}
                     <div v-if="col == sortColumn" v-bind:class="[alphabetique ? 'arrow asc' : 'arrow dsc']"></div>
                     <input v-if="col==`titre` " type="text" placeholder="Rechercher par titre..."
                            v-model="recherche_titre"/>
@@ -20,7 +20,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="row in filtrage">
+            <tr v-for="row in filtrage" :key="row">
 
                 <!--On donne pas la possibilité de modifier un id-->
 
@@ -70,7 +70,9 @@
             <div class="number"
                  v-for="i in num_pages()"
                  v-bind:class="[i === currentPage ? 'active' : '']"
-                 v-on:click="change_page(i)">{{i}}
+                 v-on:click="change_page(i)"
+                 :key="i"
+            >{{i}}
             </div>
         </div>
 
@@ -110,13 +112,17 @@
                 const field = document.querySelector("input[name=input_titre]").value;
                 axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&titre=" + field).then(response => {
                     row["titre"] = field;
+                    return response;
                 })
+                return null;
             },
             "update_priorite": function update_titre(id, row) {
                 const field = document.querySelector("input[name=input_priorite]").value;
                 axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&priorite=" + field).then(response => {
                     row["priorite"] = field;
+                    return response;
                 })
+                return null;
             },
             "update_personne": function update_personne(id, row) {
                 const field = document.querySelector("select[name=select_personne]").value;
@@ -125,7 +131,9 @@
                 
                 axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&personne=" + field).then(response => {
                     row["personne"] = field_display;
+                    return response;
                 })
+                return null;
             },
             "change_page": function change_page(page) {
                 this.currentPage = page;
