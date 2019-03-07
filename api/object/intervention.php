@@ -1,4 +1,5 @@
 <?php
+
 class Intervention
 {
 
@@ -20,11 +21,25 @@ class Intervention
         $this->conn = $db;
     }
 
+    function add()
+    {
+
+        $query = "INSERT INTO intervention (titre,detail,priorite,personne) VALUES ('$this->priorite','$this->detail','$this->priorite','$this->personne')";
+        var_dump($query);
+        $stmt = $this->conn->prepare($query);
+
+        // execute query
+        $stmt->execute();
+
+
+        return $stmt;
+    }
+
     function get($id)
     {
 
         // select all query
-        $query = "SELECT i.id, i.titre, i.detail, i.priorite, personne.id AS personne FROM intervention i LEFT JOIN personne ON i.personne= personne.id WHERE i.id=".$id." ORDER BY i.id ";
+        $query = "SELECT i.id, i.titre, i.detail, i.priorite, personne.id AS personne FROM intervention i LEFT JOIN personne ON i.personne= personne.id WHERE i.id=" . $id . " ORDER BY i.id ";
         // prepare query statement
         $stmt = $this->conn->prepare($query);
 
@@ -48,7 +63,6 @@ class Intervention
 
         // execute query
         $stmt->execute();
-
 
 
         return $stmt;

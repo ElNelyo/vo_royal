@@ -76,7 +76,31 @@
             </div>
         </div>
 
+
+
+        <h1>TEST</h1>
+        <button @click="changeShow()" >Ajouter une intervention</button>
+
+        <div v-if="show_add == true">
+            <input type="text" placeholder="Titre de l'intervention" id="intervention_titre">
+            <textarea id="intervention_detail"></textarea>
+            <input type="number" placeholder="Priorité" id="intervention_priorite">
+            <select id="intervention_personne">
+                <option value="1">Lannister</option>
+                <option value="2">Sansa</option>
+            </select>
+            <button @click="addIntervention()" >Valider</button>
+        </div>
+
+
     </div>
+
+
+
+
+
+
+
 </template>
 
 <script>
@@ -86,6 +110,7 @@
         name: 'tableau',
         data() {
             return {
+                show_add: false,
                 editmode: false,
                 row_to_edit: null,
                 value_to_edit: null,
@@ -108,6 +133,27 @@
             })
 
         }, methods: {
+            "addIntervention" : function addIntervention () {
+                var titre = document.querySelector("input[id=intervention_titre]").value;
+                var priorite = document.querySelector("input[id=intervention_priorite]").value;
+                var detail = document.querySelector("textarea[id=intervention_detail]").value;
+                var personne = document.querySelector("select[id=intervention_personne]").value;
+                axios.get("http://127.0.0.1/vo_royal/api/intervention/add.php?titre=" + titre+"&priorite="+priorite+"&detail="+detail+"&personne="+personne).then(response => {
+                    axios.get("http://127.0.0.1/vo_royal/api/intervention/read.php").then(response_2 => {
+                        this.rows = response_2.data.records
+                    })
+                    return response;
+                })
+              return null;
+            },
+            "changeShow": function changeShow() {
+                if(this.show_add == true){
+                    this.show_add= false;
+                }else{
+                    this.show_add= true;
+                }
+                return null;
+            },
             "update_titre": function update_titre(id, row) {
                 const field = document.querySelector("input[name=input_titre]").value;
                 axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&titre=" + field).then(response => {
@@ -133,7 +179,7 @@
                     row["personne"] = field_display;
                     return response;
                 })
-                return null;
+
             },
             "change_page": function change_page(page) {
                 this.currentPage = page;
