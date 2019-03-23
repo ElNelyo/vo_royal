@@ -2,6 +2,7 @@
     <div id="tableau">
         <h1>Tableau</h1>
         <input type="text" placeholder="Rechercher..." v-model="recherche"/>
+        <button @click="changeShow()">Ajouter une intervention</button>
         <table>
             <thead>
             <tr>
@@ -65,7 +66,7 @@
 
                 <td>
                     <button @click="displayDetail(row[`detail`])">Voir detail</button>
-                    <button>Modifier</button>
+                    <button @click="changeShowUpdate(  row[`detail`],row[`titre`], row[`priorite`], row[`personne`])">Modifier</button>
                     <button @click="deleteIntervention(row[`id`])" >Supprimer</button>
 
                 </td>
@@ -87,7 +88,7 @@
             <p>{{detail}}</p>
         </div>
 
-        <button @click="changeShow()">Ajouter une intervention</button>
+
 
         <div v-if="show_add == true">
             <input type="text" placeholder="Titre de l'intervention" id="intervention_titre">
@@ -98,6 +99,17 @@
                 <option value="2">Sansa</option>
             </select>
             <button @click="addIntervention()">Valider</button>
+        </div>
+
+        <div v-if="show_update == true">
+            <input type="text" placeholder="Titre de l'intervention" id="intervention_titre_update"  :value="titre_update" >
+            <textarea id="intervention_detail_update" v-model="detail_update"></textarea>
+            <input type="number" placeholder="Priorité" id="intervention_priorite_update" :value="priorite_update">
+            <select id="intervention_personne_update">
+                <option value="1">Lannister</option>
+                <option value="2">Sansa</option>
+            </select>
+            <button @click="updateIntervention(id_update)">Valider</button>
         </div>
 
 
@@ -116,13 +128,14 @@
             return {
                 detail : '',
                 display_detail: false,
+                show_update: false,
                 show_add: false,
                 editmode: false,
                 row_to_edit: null,
                 value_to_edit: null,
                 column_to_edit: null,
                 currentPage: 1,
-                elementsPerPage: 2,
+                elementsPerPage: 5,
                 alphabetique: false,
                 sortColumn: '',
                 rows: [],
@@ -131,6 +144,11 @@
                 recherche_id: '',
                 recherche_personne: '',
                 recherche_priorite: '',
+
+                titre_update: '',
+                personne_update: '',
+                detail_update: '',
+                priorite_update: '',
             }
         },
         mounted() {
@@ -171,6 +189,18 @@
                     })
                     return response;
                 })
+                return null;
+            },
+            "changeShowUpdate": function changeShowUpdate(detail,titre,priorite,personne) {
+                this.priorite_update = priorite;
+                this.personne_update = personne;
+                this.detail_update = detail;
+                this.titre_update = titre;
+                if (this.show_update == true) {
+                    this.show_update = false;
+                } else {
+                    this.show_update = true;
+                }
                 return null;
             },
             "changeShow": function changeShow() {
