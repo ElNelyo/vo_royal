@@ -6,7 +6,7 @@
         <table>
             <thead>
             <tr>
-                <th v-for="col in columns" v-on:click="trieTableau(col)" :key="col">{{col}}
+                <th v-for="col in columns" v-on:click="trieTableau(col)" >{{col}}
                     <div v-if="col == sortColumn" v-bind:class="[alphabetique ? 'arrow asc' : 'arrow dsc']"></div>
                     <input v-if="col==`titre` " type="text" placeholder="Rechercher par titre..."
                            v-model="recherche_titre"/>
@@ -22,7 +22,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="row in filtrage" :key="row">
+            <tr v-for="row in filtrage" >
 
                 <!--On donne pas la possibilité de modifier un id-->
 
@@ -66,8 +66,10 @@
 
                 <td>
                     <button @click="displayDetail(row[`detail`])">Voir detail</button>
-                    <button @click="changeShowUpdate(  row[`detail`],row[`titre`], row[`priorite`], row[`personne`])">Modifier</button>
-                    <button @click="deleteIntervention(row[`id`])" >Supprimer</button>
+                    <button @click="changeShowUpdate(  row[`detail`],row[`titre`], row[`priorite`], row[`personne`])">
+                        Modifier
+                    </button>
+                    <button @click="deleteIntervention(row[`id`])">Supprimer</button>
 
                 </td>
 
@@ -89,7 +91,6 @@
         </div>
 
 
-
         <div v-if="show_add == true">
             <input type="text" placeholder="Titre de l'intervention" id="intervention_titre">
             <textarea id="intervention_detail"></textarea>
@@ -102,8 +103,9 @@
         </div>
 
         <div v-if="show_update == true">
-            <input type="text" placeholder="Titre de l'intervention" id="intervention_titre_update"  :value="titre_update" >
-            <textarea id="intervention_detail_update" v-model="detail_update"></textarea>
+            <input type="text" placeholder="Titre de l'intervention" id="intervention_titre_update"
+                   :value="titre_update">
+            <textarea id="intervention_detail_update" v-model="detail_update "></textarea>
             <input type="number" placeholder="Priorité" id="intervention_priorite_update" :value="priorite_update">
             <select id="intervention_personne_update">
                 <option value="1">Lannister</option>
@@ -117,7 +119,7 @@
 
 
 </template>
-<script >
+<script>
 
 
     import axios from 'axios'
@@ -126,7 +128,7 @@
         name: 'tableau',
         data() {
             return {
-                detail : '',
+                detail: '',
                 display_detail: false,
                 show_update: false,
                 show_add: false,
@@ -144,7 +146,6 @@
                 recherche_id: '',
                 recherche_personne: '',
                 recherche_priorite: '',
-
                 titre_update: '',
                 personne_update: '',
                 detail_update: '',
@@ -157,7 +158,7 @@
             })
 
         }, methods: {
-            "deleteIntervention" : function deleteIntervention($id) {
+            "deleteIntervention": function deleteIntervention($id) {
                 axios.get("http://127.0.0.1/vo_royal/api/intervention/delete.php?id=" + $id).then(response => {
                     axios.get("http://127.0.0.1/vo_royal/api/intervention/read.php").then(response_2 => {
                         this.rows = response_2.data.records
@@ -191,7 +192,7 @@
                 })
                 return null;
             },
-            "changeShowUpdate": function changeShowUpdate(detail,titre,priorite,personne) {
+            "changeShowUpdate": function changeShowUpdate(detail, titre, priorite, personne) {
                 this.priorite_update = priorite;
                 this.personne_update = personne;
                 this.detail_update = detail;

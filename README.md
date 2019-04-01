@@ -10,7 +10,7 @@ npm install vue-template-compiler --save-dev
 # Start
 ```
 cd app
-npm start serve
+npm run serve
 ```
 # User stories
 **Story ID**|**User Story**|**Validation**|**Priority**
