@@ -118,9 +118,9 @@
         </div>
 
         <div v-if="show_update == true">
-            <md-input type="text" placeholder="Titre de l'intervention" id="intervention_titre_update"  :value="titre_update" >
+            <md-input type="text" placeholder="Titre de l'intervention" id="intervention_titre_update"  :value="titre_update"/>
             <md-textarea id="intervention_detail_update" v-model="detail_update"></md-textarea>
-            <md-input type="number" placeholder="Priorité" id="intervention_priorite_update" :value="priorite_update">
+            <md-input type="number" placeholder="Priorité" id="intervention_priorite_update" :value="priorite_update"/>
             <md-select id="intervention_personne_update">
                 <option value="1">Lannister</option>
                 <option value="2">Sansa</option>
