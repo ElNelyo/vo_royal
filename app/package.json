@@ -8,8 +8,15 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@vue/cli": "^3.5.4",
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.13",
+    "graphql": "^14.1.0",
+    "install-peers": "^1.0.3",
+    "jquery": "^3.3.1",
+    "typescript": "^2.0.10",
+    "vue": "^2.6.10",
+    "vue-material": "^1.0.0-beta-10.2"
     "core-js": "^2.6.5",
     "vue": "^2.6.10"
   },
