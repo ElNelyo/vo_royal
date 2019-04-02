@@ -66,7 +66,7 @@
 
                 <td>
                     <button @click="displayDetail(row[`detail`])">Voir detail</button>
-                    <button @click="changeShowUpdate(  row[`detail`],row[`titre`], row[`priorite`], row[`personne`])">
+                    <button @click="changeShowUpdate(row[`id`], row[`detail`],row[`titre`], row[`priorite`], row[`personne`])">
                         Modifier
                     </button>
                     <button @click="deleteIntervention(row[`id`])">Supprimer</button>
@@ -128,6 +128,7 @@
         name: 'tableau',
         data() {
             return {
+
                 detail: '',
                 display_detail: false,
                 show_update: false,
@@ -150,6 +151,7 @@
                 personne_update: '',
                 detail_update: '',
                 priorite_update: '',
+                id_update : '',
             }
         },
         mounted() {
@@ -158,6 +160,15 @@
             })
 
         }, methods: {
+            "updateIntervention" : function updateIntervention(id){
+                var personne = document.getElementById("intervention_personne_update").value;
+                axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id="+id+"&titre=" + this.titre_update + "&priorite=" + this.priorite_update+ "&detail=" + this.detail_update + "&personne=" + personne).then(response => {
+                    axios.get("http://127.0.0.1/vo_royal/api/intervention/read.php").then(response_2 => {
+                        this.rows = response_2.data.records
+                    })
+                });
+
+            },
             "deleteIntervention": function deleteIntervention($id) {
                 axios.get("http://127.0.0.1/vo_royal/api/intervention/delete.php?id=" + $id).then(response => {
                     axios.get("http://127.0.0.1/vo_royal/api/intervention/read.php").then(response_2 => {
@@ -192,10 +203,11 @@
                 })
                 return null;
             },
-            "changeShowUpdate": function changeShowUpdate(detail, titre, priorite, personne) {
+            "changeShowUpdate": function changeShowUpdate(id, detail, titre, priorite, personne) {
                 this.priorite_update = priorite;
                 this.personne_update = personne;
                 this.detail_update = detail;
+                this.id_update = id;
                 this.titre_update = titre;
                 if (this.show_update == true) {
                     this.show_update = false;

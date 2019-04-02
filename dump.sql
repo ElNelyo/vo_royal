@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 04 Février 2019 à 16:15
+-- Généré le :  Mar 02 Avril 2019 à 09:34
 -- Version du serveur :  5.6.15-log
 -- Version de PHP :  5.4.24
 
@@ -23,22 +23,25 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `famille`
+-- Structure de la table `intervention`
 --
 
-CREATE TABLE IF NOT EXISTS `famille` (
+CREATE TABLE IF NOT EXISTS `intervention` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(50) NOT NULL,
-PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `titre` varchar(50) NOT NULL,
+  `detail` text NOT NULL,
+  `priorite` int(11) NOT NULL,
+  `personne` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
--- Contenu de la table `famille`
+-- Contenu de la table `intervention`
 --
 
-INSERT INTO `famille` (`id`, `nom`) VALUES
-(1, 'Lannister'),
-(2, 'Stark');
+INSERT INTO `intervention` (`id`, `titre`, `detail`, `priorite`, `personne`) VALUES
+(9, '25', 'dsdq', 25, 2),
+(10, '3', 'dsqdsqsddsqd', 3, 2);
 
 -- --------------------------------------------------------
 
@@ -50,17 +53,16 @@ CREATE TABLE IF NOT EXISTS `personne` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) NOT NULL,
   `prenom` varchar(50) NOT NULL,
-  `famille` int(11) NOT NULL,
-PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `personne`
 --
 
-INSERT INTO `personne` (`id`, `nom`, `prenom`, `famille`) VALUES
-(1, 'Lannister', 'Tyrion', 1),
-(2, 'Sansa', 'Stark', 2);
+INSERT INTO `personne` (`id`, `nom`, `prenom`) VALUES
+(1, 'Lannister', 'Tyrion'),
+(2, 'Sansa', 'Stark');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
