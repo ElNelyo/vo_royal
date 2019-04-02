@@ -6,7 +6,7 @@
         <table>
             <thead>
             <tr>
-                <th v-for="col in columns" v-on:click="trieTableau(col)" >{{col}}
+                <th v-for="col in columns" v-bind:key="col" v-on:click="trieTableau(col)" >{{col}}
                     <div v-if="col == sortColumn" v-bind:class="[alphabetique ? 'arrow asc' : 'arrow dsc']"></div>
                     <input v-if="col==`titre` " type="text" placeholder="Rechercher par titre..."
                            v-model="recherche_titre"/>
@@ -22,7 +22,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="row in filtrage" >
+            <tr v-for="row in filtrage" v-bind:key="row">
 
                 <!--On donne pas la possibilité de modifier un id-->
 
@@ -166,6 +166,7 @@
                     axios.get("http://127.0.0.1/vo_royal/api/intervention/read.php").then(response_2 => {
                         this.rows = response_2.data.records
                     })
+                    return response;
                 });
 
             },

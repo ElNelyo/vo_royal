@@ -6,12 +6,23 @@ npm install -g @vue/cli-service-global
 npm install axios --save
 npm i vue bootstrap-vue bootstrap
 npm install vue-template-compiler --save-dev
+npm install --save core-js@2
+
 ```
 # Start
+Build for dev : 
 ```
 cd app
 npm run serve
 ```
+
+Build vor prod : 
+
+```
+cd app
+npm run build
+```
+
 # User stories
 **Story ID**|**User Story**|**Validation**|**Priority**
 :-----:|:-----:|:-----:|:-----:
