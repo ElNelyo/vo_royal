@@ -44,9 +44,44 @@ if($stmt){
     http_response_code(200);
 
     // tell the user no familles found
-    echo json_encode(
-        array("message" => "Intervention added.")
-    );
+    $intervention = new Intervention ($db);
+
+// query familles
+    $stmt = $intervention->read();
+    $num = $stmt->rowCount();
+
+
+// check if more than 0 record found
+    if ($num > 0) {
+
+        // familles array
+        $intervention_arr = array();
+        $intervention_arr["records"] = array();
+
+        // retrieve our table contents
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            // extract row
+            // this will make $row['name'] to
+            // just $name only
+            extract($row);
+            $intervention_obj = array(
+                "id" => $id,
+                "titre" => $titre,
+                "detail" => $detail,
+                "priorite" => $priorite,
+                "personne" => $personne
+            );
+
+            array_push($intervention_arr["records"], $intervention_obj);
+        }
+
+        // set response code - 200 OK
+        http_response_code(200);
+
+        // show familles data in json format
+        echo json_encode($intervention_arr);
+
+    } // if unable to update the product, tell the use
 }
 else{
 

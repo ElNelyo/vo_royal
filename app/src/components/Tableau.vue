@@ -1,12 +1,12 @@
 <template>
     <div id="tableau">
-        <h1>Tableau</h1>
+        <h1>Tableau {{rows.length }}</h1>
         <input type="text" placeholder="Rechercher..." v-model="recherche"/>
         <button @click="changeShow()">Ajouter une intervention</button>
         <table>
             <thead>
             <tr>
-                <th v-for="col in columns" v-bind:key="col" v-on:click="trieTableau(col)" >{{col}}
+                <th v-for="col in columns" v-bind:key="col" v-on:click="trieTableau(col)">{{col}}
                     <div v-if="col == sortColumn" v-bind:class="[alphabetique ? 'arrow asc' : 'arrow dsc']"></div>
                     <input v-if="col==`titre` " type="text" placeholder="Rechercher par titre..."
                            v-model="recherche_titre"/>
@@ -151,7 +151,7 @@
                 personne_update: '',
                 detail_update: '',
                 priorite_update: '',
-                id_update : '',
+                id_update: '',
             }
         },
         mounted() {
@@ -160,24 +160,20 @@
             })
 
         }, methods: {
-            "updateIntervention" : function updateIntervention(id){
+            "updateIntervention": function updateIntervention(id) {
                 var personne = document.getElementById("intervention_personne_update").value;
-                axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id="+id+"&titre=" + this.titre_update + "&priorite=" + this.priorite_update+ "&detail=" + this.detail_update + "&personne=" + personne).then(response => {
-                    axios.get("http://127.0.0.1/vo_royal/api/intervention/read.php").then(response_2 => {
-                        this.rows = response_2.data.records
-                    })
+                axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&titre=" + this.titre_update + "&priorite=" + this.priorite_update + "&detail=" + this.detail_update + "&personne=" + personne).then(response => {
+                    this.rows = response.data.records;
                     return response;
                 });
 
             },
             "deleteIntervention": function deleteIntervention($id) {
                 axios.get("http://127.0.0.1/vo_royal/api/intervention/delete.php?id=" + $id).then(response => {
-                    axios.get("http://127.0.0.1/vo_royal/api/intervention/read.php").then(response_2 => {
-                        this.rows = response_2.data.records
-                    })
+                    this.rows = response.data.records;
                     return response;
-                })
-                return null;
+                });
+
             },
             "displayDetail": function displayDetail($detail) {
                 if (this.display_detail == true) {
