@@ -1,32 +1,43 @@
 <template>
-        <div id="tableau" class="md-layout">
-        <div class="md-layout-item md-alignment-center-center md-medium-size-50">
-            <h1>Tableau</h1>
+        <div id="tableau" class="md-layout" font-family="">
+        <div class="md-layout-item md-alignment-center-center md-large-size-100">
+            <md-avatar class="md-large"><div style="background-color : #b2ff59">
+                <img src="https://cdn1.iconfinder.com/data/icons/crowns/154/monarch-crown-512.png" alt="Avatar"></div>
+            </md-avatar>
+            <h1>Tableau des interventions</h1>
         </div>
-        <div class="md-layout-item md-alignment-center-center md-medium-size-50">
-            <md-input type="text" placeholder="Rechercher..." v-model="recherche"/>
-            <md-button @click="changeShow()">Ajouter une intervention</md-button>
+        <div class="md-layout-item md-alignment-center-center md-large-size-33">
+            <md-field>
+                <md-input type="text" placeholder="Rechercher..." v-model="recherche"/>
+            </md-field>
         </div>
-        <md-table class="md-layout-item md-medium-size-100" md-card >
-            <md-table-row>
+        <div>
+            <md-button class="md-icon-button md-raised md-primary" @click="changeShow()">
+                <md-icon><div style="color : #b3e5fc">playlist_add</div></md-icon>
+                </md-button>
+        </div>
+        <md-table class="md-layout-item md-large-size-100" md-card>
                 <md-table-cell v-for="col in columns">
-                    <md-table-head v-on:click="trieTableau(col)" :key="col">{{col}}</md-table-head>
-                </md-table-cell>
-            </md-table-row>
-            <md-table-row>
-                <md-table-cell v-for="col in columns">
+                    <md-button v-on:click="trieTableau(col)">{{col}}</md-button>
                     <div v-if="col == sortColumn" v-bind:class="[alphabetique ? 'arrow asc' : 'arrow dsc']"></div>
-                    <md-input v-if="col==`titre` " type="text" placeholder="Rechercher par titre..."
+                    <md-field v-if="col==`titre` ">
+                    <md-input type="text" placeholder="Rechercher par titre..."
                               v-model="recherche_titre"/>
-                    <md-input v-if="col==`personne` " type="text" placeholder="Rechercher par personne..."
+                    </md-field>
+                    <md-field v-if="col==`personne` ">
+                    <md-input type="text" placeholder="Rechercher par personne..."
                               v-model="recherche_personne"/>
-                    <md-input v-if="col==`id` " type="text" placeholder="Rechercher par id..."
+                    </md-field>
+                    <md-field  v-if="col==`id`">
+                    <md-input type="text" placeholder="Rechercher par id..."
                               v-model="recherche_id"/>
-                    <md-input v-if="col==`priorite` " type="text" placeholder="Rechercher par priorite..."
+                    </md-field>
+                    <md-field v-if="col==`priorite` ">
+                    <md-input type="text" placeholder="Rechercher par priorite..."
                               v-model="recherche_priorite"/>
+                    </md-field>
                 </md-table-cell>
-            </md-table-row>
-            <md-table-row v-for="row in filtrage" :key="row">
+            <md-table-row v-for="row in filtrage">
 
 
                 <!--On donne pas la possibilité de modifier un id-->
@@ -41,28 +52,29 @@
                 <md-table-cell>{{row["id"]}}</md-table-cell>
 
                 <md-table-cell v-if="editmode && row_to_edit == row && value_to_edit== row[`titre`] && column_to_edit==`titre`">
-                    <input type="text" @change="update_titre(row[`id`], row)" v-bind:value="row[`titre`]"
-                           name="input_titre">
+                    <md-field>
+                    <md-input type="text" @change="update_titre(row[`id`], row)" v-bind:value="row[`titre`]"
+                           name="input_titre"/>
+                    </md-field>
                 </md-table-cell>
                 <md-table-cell v-else v-on:click="edit(row,row[`titre`],`titre`)">
                     {{row["titre"]}}
                 </md-table-cell>
                 <md-table-cell v-if="editmode && row_to_edit == row && value_to_edit== row[`priorite`]&& column_to_edit==`priorite`">
-                    <input type="text" @change="update_priorite(row[`id`], row)" v-bind:value="row[`priorite`]"
-                           name="input_priorite">
+                    <md-field>
+                    <md-input type="text" @change="update_priorite(row[`id`], row)" v-bind:value="row[`priorite`]"
+                           name="input_priorite"/>
+                    </md-field>
                 </md-table-cell>
                 <md-table-cell v-else v-on:click="edit(row,row[`priorite`],`priorite`)">
                     {{row["priorite"]}}
                 </md-table-cell>
 
                 <md-table-cell v-if="editmode && row_to_edit == row && value_to_edit== row[`personne`]&& column_to_edit==`personne`">
-                    <select type="text" @change="update_personne(row[`id`], row)" v-bind:value="row[`personne`]"
-                            name="select_personne" id="select_personne">
-
+                    <md-select type="text" @change="update_personne(row[`id`], row)" v-bind:value="row[`personne`]" name="select_personne" id="select_personne">
                         <option value="1">Lannister</option>
                         <option value="2">Sansa</option>
-
-                    </select>
+                    </md-select>
 
                 </md-table-cell>
                 <md-table-cell v-else v-on:click="edit(row,row[`personne`],`personne`)">
@@ -70,14 +82,14 @@
                 </md-table-cell>
 
                 <md-table-cell>
-                    <md-button class="md-raised md-primary" @click="displayDetail(row[`detail`])">
-                        Détails
+                    <md-button class="md-icon-button md-raised md-primary" @click="displayDetail(row[`detail`])">
+                        <md-icon><div style="color : #80d8ff">more_horiz</div></md-icon>
                     </md-button>
-                    <md-button class=" md-raised md-primary" @click="changeShowUpdate(row[`detail`],row[`titre`], row[`priorite`], row[`personne`])">
-                        Modifier
+                    <md-button class="md-icon-button md-raised md-primary" @click="changeShowUpdate(row[`id`],row[`detail`],row[`titre`], row[`priorite`], row[`personne`])">
+                        <md-icon><div style="color : #b2ff59">edit</div></md-icon>
                     </md-button>
-                    <md-button class=" md-raised md-primary" @click="deleteIntervention(row[`id`])" >
-                        Supprimer
+                    <md-button class="md-icon-button md-raised md-primary" @click="deleteIntervention(row[`id`])" >
+                        <md-icon><div style="color : #ff6e40">delete_forever</div></md-icon>
                     </md-button>
                 </md-table-cell>
 
@@ -87,19 +99,18 @@
         </md-table-row>
         </md-table>
 <md-divider class="md-inset"></md-divider>
-        <md-table class="md-layout-item md-medium-size-100" md-card >
+        <md-table class="md-layout-item md-large-size-100" md-card >
         <div class="pagination">
             <div class="number"
                  v-for="i in num_pages()"
                  v-bind:class="[i === currentPage ? 'active' : '']"
-                 v-on:click="change_page(i)"
-                 :key="i"
-            >{{i}}
+                 v-on:click="change_page(i)">
+                {{i}}
             </div>
         </div>
         </md-table>
         <md-divider class="md-inset"></md-divider>
-        <md-table class="md-layout-item md-medium-size-100" md-card >
+        <md-table class="md-layout-item md-large-size-100" md-card >
             <div v-if="display_detail == true">
                 <p>{{detail}}</p>
             </div>
@@ -107,33 +118,71 @@
 
 
         <div v-if="show_add == true">
-            <input type="text" placeholder="Titre de l'intervention" id="intervention_titre">
-            <textarea id="intervention_detail"></textarea>
-            <input type="number" placeholder="Priorité" id="intervention_priorite">
-            <select id="intervention_personne">
-                <option value="1">Lannister</option>
-                <option value="2">Sansa</option>
-            </select>
-            <button @click="addIntervention()">Valider</button>
+            <md-table-cell>
+                <md-field>
+                    <md-input type="text" placeholder="Titre de l'intervention" id="intervention_titre"/>
+                </md-field>
+            </md-table-cell>
+            <md-table-cell>
+                <md-textarea id="intervention_detail"></md-textarea>
+            </md-table-cell>
+            <md-table-cell>
+                <md-input type="number" placeholder="Priorité" id="intervention_priorite"/>
+            </md-table-cell>
+            <md-table-cell>
+                <md-select id="intervention_personne">
+                    <md-option value="1">Lannister</md-option>
+                    <md-option value="2">Sansa</md-option>
+                </md-select>
+            </md-table-cell>
+            <md-table-cell>
+            <md-button class="md-icon-button md-raised md-primary" @click="addIntervention()">
+                <md-icon><div style="color : #b2ff59">done_outline</div></md-icon>
+            </md-button>
+            </md-table-cell>
         </div>
 
         <div v-if="show_update == true">
-            <md-input type="text" placeholder="Titre de l'intervention" id="intervention_titre_update"  :value="titre_update"/>
-            <md-textarea id="intervention_detail_update" v-model="detail_update"></md-textarea>
-            <md-input type="number" placeholder="Priorité" id="intervention_priorite_update" :value="priorite_update"/>
-            <md-select id="intervention_personne_update">
-                <option value="1">Lannister</option>
-                <option value="2">Sansa</option>
-            </md-select>
-            <md-button @click="updateIntervention(id_update)">Valider</md-button>
+            <md-table-cell>
+                <md-field>
+                    <md-input type="text" placeholder="Titre de l'intervention" id="intervention_titre_update"  :value="titre_update"/>
+                </md-field>
+            </md-table-cell>
+            <md-table-cell>
+                <md-textarea id="intervention_detail_update" v-model="detail_update"></md-textarea>
+            </md-table-cell>
+            <md-table-cell>
+                <md-field>
+                    <md-input type="number" placeholder="Priorité" id="intervention_priorite_update" :value="priorite_update"/>
+                </md-field>
+            </md-table-cell>
+            <md-table-cell>
+                <md-select id="intervention_personne_update">
+                    <md-option value="1">Lannister</md-option>
+                    <md-option value="2">Sansa</md-option>
+                </md-select>
+            </md-table-cell>
+            <md-table-cell>
+                <md-button class="md-icon-button md-raised md-primary" @click="updateIntervention(id_update)">
+                    <md-icon><div style="color : #b2ff59">save</div></md-icon>
+                </md-button>
+            </md-table-cell>
         </div>
-
         </md-table>
     </div>
-
-
 </template>
-
+<style>
+    h1 {
+        font-family: 'Comfortaa', cursive;
+        font-size: 24px;
+        text-align: center;
+    }
+    body {
+        font-family: 'Comfortaa', cursive;
+        font-size: 14px;
+        text-align: center;
+    }
+</style>
 <script>
 
 

@@ -8,6 +8,8 @@ npm i vue bootstrap-vue bootstrap
 npm install vue-template-compiler --save-dev
 npm install vue-material --save
 npm install --save core-js@2
+npm i material-design-icons
+
 
 ```
 # Start
