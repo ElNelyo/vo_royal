@@ -1,12 +1,12 @@
 <template>
         <div id="tableau" class="md-layout" font-family="">
-        <div class="md-layout-item md-alignment-center-center md-large-size-100">
-            <md-avatar class="md-large"><div style="background-color : #b2ff59">
+        <div class="md-layout-item md-alignment-center-center md-xlarge-size-100">
+            <md-avatar class="md-xlarge"><div style="background-color : #b2ff59">
                 <img src="https://cdn1.iconfinder.com/data/icons/crowns/154/monarch-crown-512.png" alt="Avatar"></div>
             </md-avatar>
             <h1>Tableau des interventions</h1>
         </div>
-        <div class="md-layout-item md-alignment-center-center md-large-size-33">
+        <div class="md-layout-item md-alignment-center-center md-xlarge-size-33">
             <md-field>
                 <md-input type="text" placeholder="Rechercher..." v-model="recherche"/>
             </md-field>
@@ -16,7 +16,7 @@
                 <md-icon><div style="color : #b3e5fc">playlist_add</div></md-icon>
                 </md-button>
         </div>
-        <md-table class="md-layout-item md-large-size-100" md-card>
+        <md-table class="md-layout-item md-xlarge-size-100" md-card>
                 <md-table-cell v-for="col in columns">
                     <md-button v-on:click="trieTableau(col)">{{col}}</md-button>
                     <div v-if="col == sortColumn" v-bind:class="[alphabetique ? 'arrow asc' : 'arrow dsc']"></div>
@@ -71,10 +71,10 @@
                 </md-table-cell>
 
                 <md-table-cell v-if="editmode && row_to_edit == row && value_to_edit== row[`personne`]&& column_to_edit==`personne`">
-                    <md-select type="text" @change="update_personne(row[`id`], row)" v-bind:value="row[`personne`]" name="select_personne" id="select_personne">
+                    <select type="text" @change="update_personne(row[`id`], row)" v-bind:value="row[`personne`]" name="select_personne" id="select_personne">
                         <option value="1">Lannister</option>
                         <option value="2">Sansa</option>
-                    </md-select>
+                    </select>
 
                 </md-table-cell>
                 <md-table-cell v-else v-on:click="edit(row,row[`personne`],`personne`)">
@@ -99,7 +99,7 @@
         </md-table-row>
         </md-table>
 <md-divider class="md-inset"></md-divider>
-        <md-table class="md-layout-item md-large-size-100" md-card >
+        <md-table class="md-layout-item md-xlarge-size-100" md-card >
         <div class="pagination">
             <div class="number"
                  v-for="i in num_pages()"
@@ -110,7 +110,7 @@
         </div>
         </md-table>
         <md-divider class="md-inset"></md-divider>
-        <md-table class="md-layout-item md-large-size-100" md-card >
+        <md-table class="md-layout-item md-xlarge-size-100" md-card >
             <div v-if="display_detail == true">
                 <p>{{detail}}</p>
             </div>
@@ -130,10 +130,10 @@
                 <md-input type="number" placeholder="Priorité" id="intervention_priorite"/>
             </md-table-cell>
             <md-table-cell>
-                <md-select id="intervention_personne">
-                    <md-option value="1">Lannister</md-option>
-                    <md-option value="2">Sansa</md-option>
-                </md-select>
+                <select id="intervention_personne">
+                    <option value="1">Lannister</option>
+                    <option value="2">Sansa</option>
+                </select>
             </md-table-cell>
             <md-table-cell>
             <md-button class="md-icon-button md-raised md-primary" @click="addIntervention()">
@@ -157,10 +157,10 @@
                 </md-field>
             </md-table-cell>
             <md-table-cell>
-                <md-select id="intervention_personne_update">
-                    <md-option value="1">Lannister</md-option>
-                    <md-option value="2">Sansa</md-option>
-                </md-select>
+                <select id="intervention_personne_update">
+                    <option value="1">Lannister</option>
+                    <option value="2">Sansa</option>
+                </select>
             </md-table-cell>
             <md-table-cell>
                 <md-button class="md-icon-button md-raised md-primary" @click="updateIntervention(id_update)">
@@ -253,15 +253,19 @@
 
             "addIntervention": function addIntervention() {
                 var titre = document.querySelector("input[id=intervention_titre]").value;
+
                 var priorite = document.querySelector("input[id=intervention_priorite]").value;
+
                 var detail = document.querySelector("textarea[id=intervention_detail]").value;
+
                 var personne = document.querySelector("select[id=intervention_personne]").value;
-                axios.get("http://127.0.0.1/vo_royal/api/intervention/add.php?titre=" + titre + "&priorite=" + priorite + "&detail=" + detail + "&personne=" + personne).then(response => {
-                    axios.get("http://127.0.0.1/vo_royal/api/intervention/read.php").then(response_2 => {
-                        this.rows = response_2.data.records
+
+                    axios.get("http://127.0.0.1/vo_royal/api/intervention/add.php?titre=" + titre + "&priorite=" + priorite + "&detail=" + detail + "&personne=" + personne).then(response => {
+                        axios.get("http://127.0.0.1/vo_royal/api/intervention/read.php").then(response_2 => {
+                            this.rows = response_2.data.records
+                        })
+                        return response;
                     })
-                    return response;
-                })
                 return null;
             },
             "changeShowUpdate": function changeShowUpdate(id, detail, titre, priorite, personne) {
