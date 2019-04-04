@@ -1,13 +1,13 @@
 <template>
-        <div id="tableau" class="md-layout" font-family="">
-        <div class="md-layout-item md-alignment-center-center md-xlarge-size-100">
+        <div id="tableau" class="md-layout md-gutter md-alignment-center" font-family="">
+        <div class="md-layout-item md-alignment-center-center md-xlarge-size-100 md-large-size-100 md-medium-size-100 md-small-size-100 md-xsmall-size-100">
             <md-avatar class="md-xlarge"><div style="background-color : #b2ff59">
                 <img src="https://cdn1.iconfinder.com/data/icons/crowns/154/monarch-crown-512.png" alt="Avatar"></div>
             </md-avatar>
             <h1>Tableau des interventions </h1>
             <p>{{rows.length}} interventions</p>
         </div>
-        <div class="md-layout-item md-alignment-center-center md-xlarge-size-33">
+        <div class="md-layout-item md-xlarge-size-25 md-large-size-25 md-medium-size-25 md-small-size-25 md-xsmall-size-25">
             <md-field>
                 <md-input type="text" placeholder="Rechercher..." v-model="recherche"/>
             </md-field>
@@ -17,7 +17,7 @@
                 <md-icon><div style="color : #b3e5fc">playlist_add</div></md-icon>
                 </md-button>
         </div>
-        <md-table class="md-layout-item md-xlarge-size-100" md-card>
+        <md-table class="md-layout-item md-xlarge-size-100 md-large-size-100 md-medium-size-100 md-small-size-100 md-xsmall-size-100" md-card>
                 <md-table-cell v-for="col in columns">
                     <md-button v-on:click="trieTableau(col)">{{col}}</md-button>
                     <div v-if="col == sortColumn" v-bind:class="[alphabetique ? 'arrow asc' : 'arrow dsc']"></div>
@@ -100,8 +100,8 @@
         </md-table-row>
         </md-table>
 <md-divider class="md-inset"></md-divider>
-        <md-table class="md-layout-item md-xlarge-size-100" md-card >
-        <div class="pagination">
+        <md-table class="md-layout-item md-xlarge-size-100 md-large-size-100 md-medium-size-100 md-small-size-100 md-xsmall-size-100" md-card >
+        <div style="background-color: black " class="pagination">
             <div class="number"
                  v-for="i in num_pages()"
                  v-bind:class="[i === currentPage ? 'active' : '']"
@@ -111,7 +111,7 @@
         </div>
         </md-table>
         <md-divider class="md-inset"></md-divider>
-        <md-table class="md-layout-item md-xlarge-size-100" md-card >
+        <md-table class="md-layout-item md-xlarge-size-100 md-large-size-100 md-medium-size-100 md-small-size-100 md-xsmall-size-100" md-card >
             <div v-if="display_detail == true">
                 <p>{{detail}}</p>
             </div>
@@ -171,6 +171,7 @@
     </div>
 </template>
 <style>
+
     h1 {
         font-family: 'Comfortaa', cursive;
         font-size: 24px;
@@ -182,6 +183,8 @@
         text-align: center;
     }
 </style>
+
+
 <script>
 
 
