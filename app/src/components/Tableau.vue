@@ -4,7 +4,8 @@
             <md-avatar class="md-xlarge"><div style="background-color : #b2ff59">
                 <img src="https://cdn1.iconfinder.com/data/icons/crowns/154/monarch-crown-512.png" alt="Avatar"></div>
             </md-avatar>
-            <h1>Tableau des interventions</h1>
+            <h1>Tableau des interventions </h1>
+            <p>{{rows.length}} interventions</p>
         </div>
         <div class="md-layout-item md-alignment-center-center md-xlarge-size-33">
             <md-field>
