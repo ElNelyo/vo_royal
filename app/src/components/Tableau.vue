@@ -1,5 +1,5 @@
 <template>
-        <div id="tableau" class="md-layout md-gutter md-alignment-center" font-family="">
+        <div id="tableau" class="md-layout md-gutter md-alignment-center">
         <div class="md-layout-item md-alignment-center-center md-xlarge-size-100 md-large-size-100 md-medium-size-100 md-small-size-100 md-xsmall-size-100">
             <md-avatar class="md-xlarge"><div style="background-color : #b2ff59">
                 <img src="https://cdn1.iconfinder.com/data/icons/crowns/154/monarch-crown-512.png" alt="Avatar"></div>
@@ -100,15 +100,16 @@
         </md-table-row>
         </md-table>
 <md-divider class="md-inset"></md-divider>
-        <md-table class="md-layout-item md-xlarge-size-100 md-large-size-100 md-medium-size-100 md-small-size-100 md-xsmall-size-100" md-card >
-        <div style="background-color: black " class="pagination">
-            <div class="number"
-                 v-for="i in num_pages()"
-                 v-bind:class="[i === currentPage ? 'active' : '']"
-                 v-on:click="change_page(i)">
-                {{i}}
-            </div>
-        </div>
+        <md-table class="md-layout-item md-xlarge-size-50 md-large-size-50 md-medium-size-50 md-small-size-50 md-xsmall-size-50" md-card >
+            <tr style="background-color: black " class="pagination">
+                Page :
+                    <td style=" font-family: 'Comfortaa', cursive; font-size: 16px; text-align: center;" class="number"
+                         v-for="i in num_pages()"
+                         v-bind:class="[i === currentPage ? 'active' : '']"
+                         v-on:click="change_page(i)">
+                        {{i}}
+                    </td>
+            </tr>
         </md-table>
         <md-divider class="md-inset"></md-divider>
         <md-table class="md-layout-item md-xlarge-size-100 md-large-size-100 md-medium-size-100 md-small-size-100 md-xsmall-size-100" md-card >
