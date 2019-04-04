@@ -24,7 +24,7 @@ class Intervention
     function add()
     {
 
-        $query = "INSERT INTO intervention (titre,detail,priorite,personne) VALUES ('$this->priorite','$this->detail','$this->priorite','$this->personne')";
+        $query = "INSERT INTO intervention (titre,detail,priorite,personne) VALUES ('$this->titre','$this->detail','$this->priorite','$this->personne')";
         var_dump($query);
         $stmt = $this->conn->prepare($query);
 

@@ -224,8 +224,11 @@
 
         }, methods: {
             "updateIntervention": function updateIntervention(id) {
+                var titre  = document.getElementById("intervention_titre_update").value;
+                var priorite  = document.getElementById("intervention_priorite_update").value;
+                var detail  = document.getElementById("intervention_detail_update").value;
                 var personne = document.getElementById("intervention_personne_update").value;
-                axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&titre=" + this.titre_update + "&priorite=" + this.priorite_update + "&detail=" + this.detail_update + "&personne=" + personne).then(response => {
+                axios.get("http://127.0.0.1/vo_royal/api/intervention/update.php?id=" + id + "&titre=" + titre + "&priorite=" + priorite + "&detail=" + detail + "&personne=" + personne).then(response => {
                     this.rows = response.data.records;
                     return response;
                 });
