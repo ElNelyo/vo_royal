@@ -58,29 +58,29 @@
                            name="input_titre"/>
                     </md-field>
                 </md-table-cell>
-                <md-table-cell v-else v-on:click="edit(row,row[`titre`],`titre`)">
+                <td v-else v-on:click="edit(row,row[`titre`],`titre`)">
                     {{row["titre"]}}
-                </md-table-cell>
+                </td>
                 <md-table-cell v-if="editmode && row_to_edit == row && value_to_edit== row[`priorite`]&& column_to_edit==`priorite`">
                     <md-field>
                     <md-input type="text" @change="update_priorite(row[`id`], row)" v-bind:value="row[`priorite`]"
                            name="input_priorite"/>
                     </md-field>
                 </md-table-cell>
-                <md-table-cell v-else v-on:click="edit(row,row[`priorite`],`priorite`)">
+                <td v-else v-on:click="edit(row,row[`priorite`],`priorite`)">
                     {{row["priorite"]}}
-                </md-table-cell>
+                </td>
 
-                <md-table-cell v-if="editmode && row_to_edit == row && value_to_edit== row[`personne`]&& column_to_edit==`personne`">
+                <td v-if="editmode && row_to_edit == row && value_to_edit== row[`personne`]&& column_to_edit==`personne`">
                     <select type="text" @change="update_personne(row[`id`], row)" v-bind:value="row[`personne`]" name="select_personne" id="select_personne">
                         <option value="1">Lannister</option>
                         <option value="2">Sansa</option>
                     </select>
 
-                </md-table-cell>
-                <md-table-cell v-else v-on:click="edit(row,row[`personne`],`personne`)">
+                </td>
+                <td v-else v-on:click="edit(row,row[`personne`],`personne`)">
                     {{row["personne"]}}
-                </md-table-cell>
+                </td>
 
                 <md-table-cell>
                     <md-button class="md-icon-button md-raised md-primary" @click="displayDetail(row[`detail`])">
@@ -156,7 +156,7 @@
                     <md-input type="number" placeholder="Priorité" id="intervention_priorite_update" :value="priorite_update"/>
                 </md-field>
             </md-table-cell>
-            <md-table-cell>
+            <md-table-cell v-if="show_update == true">
                 <select id="intervention_personne_update">
                     <option value="1">Lannister</option>
                     <option value="2">Sansa</option>
@@ -322,7 +322,7 @@
                 return Math.ceil(this.rows.length / this.elementsPerPage);
             },
             "edit": function edit(row, value, col) {
-
+                console.log("tets");
                 this.row_to_edit = row;
                 this.value_to_edit = value;
                 this.column_to_edit = col;
