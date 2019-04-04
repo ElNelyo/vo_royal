@@ -143,16 +143,15 @@
             </md-table-cell>
         </div>
 
-        <div v-if="show_update == true">
-            <md-table-cell>
+            <md-table-cell v-if="show_update == true">
                 <md-field>
                     <md-input type="text" placeholder="Titre de l'intervention" id="intervention_titre_update"  :value="titre_update"/>
                 </md-field>
             </md-table-cell>
-            <md-table-cell>
+            <md-table-cell v-if="show_update == true">
                 <md-textarea id="intervention_detail_update" v-model="detail_update"></md-textarea>
             </md-table-cell>
-            <md-table-cell>
+            <md-table-cell v-if="show_update == true">
                 <md-field>
                     <md-input type="number" placeholder="Priorité" id="intervention_priorite_update" :value="priorite_update"/>
                 </md-field>
@@ -163,12 +162,11 @@
                     <option value="2">Sansa</option>
                 </select>
             </md-table-cell>
-            <md-table-cell>
+            <md-table-cell v-if="show_update == true">
                 <md-button class="md-icon-button md-raised md-primary" @click="updateIntervention(id_update)">
                     <md-icon><div style="color : #b2ff59">save</div></md-icon>
                 </md-button>
             </md-table-cell>
-        </div>
         </md-table>
     </div>
 </template>
